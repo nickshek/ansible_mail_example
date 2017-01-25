@@ -1,0 +1,28 @@
+version: '2'
+
+networks:
+  app_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.240.0/24
+        gateway: 172.16.240.1
+      - subnet: 2001:3984:4000::/64
+        gateway: 2001:3984:4000::1
+
+services:
+  ansible:
+    build: ./ansible/.
+    ports:
+      - "9080:80"
+    volumes:
+      - "./ansible/srv:/srv"
+    restart: always
+    tty: true
+    networks:
+      app_net:
+        ipv4_address: 172.16.240.11
+        ipv6_address: 2001:3984:4000::11

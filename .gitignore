@@ -1,0 +1,7 @@
+.tags
+/ansible/srv/example/hosts
+/ansible/srv/example/.ssh
+/ansible/srv/example/tmp
+/ansible/srv/example/logs
+/ansible/srv/example/group_vars/all
+/ansible/srv/example/site.retry

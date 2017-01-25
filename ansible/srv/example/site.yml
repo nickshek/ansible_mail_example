@@ -1,0 +1,33 @@
+- hosts: all:!local
+  tasks:
+  - name: ping all hosts
+    ping:
+    register: ping_result
+    ignore_errors: yes
+
+  - name: check disk space for all hosts
+    command: df -h
+    register: disk_result
+    ignore_errors: yes
+
+  - name: check high cpu usage process
+    shell: ps -eo pcpu,user,args | sort -r -k1 | head -n5
+    register: cpu_result
+    ignore_errors: yes
+
+  - name: run ifconfig
+    shell: ifconfig
+    register: ifconfig_result
+    ignore_errors: yes
+
+  - name: template email
+    local_action: template src=./files/email_template.j2 dest='./tmp/{{ hostvars[inventory_hostname]["inventory_hostname"] }}.txt'
+
+- hosts: local
+  tasks:
+  - name: create result email
+    template: src=./files/email_summary_template.j2 dest=./tmp/email.txt
+    delegate_to: localhost
+
+  - name: send email result
+    local_action: mail host='{{ email_host }}' port='{{ email_port }}' to='{{ email_to }}' username='{{ email_username }}' password='{{ email_password }}' subject='Report' body='{{ lookup("file", "./tmp/email.txt") }}' from='{{ email_from }}' charset='UTF-8' subtype='html'

@@ -1,0 +1,20 @@
+{% if ping_result is defined %}
+<h2>Ping Command Result</h2>
+-----------------------------------<br/>
+{{ ping_result | to_nice_yaml | replace("\n","<br/>") }}
+<br/>
+{% endif %}
+
+{% if disk_result is defined %}
+<h2>Disk Command Result</h2>
+-----------------------------------<br/>
+{{ disk_result | to_nice_yaml | replace("\n","<br/>") }}
+<br/>
+{% endif %}
+
+{% if cpu_result is defined %}
+<h2>Command result for ps -eo pcpu,user,args | sort -r -k1 | head -n5</h2>
+-----------------------------------<br/>
+{{ cpu_result | to_nice_yaml | replace("\n","<br/>") }}
+{% endif %}
+<br/>

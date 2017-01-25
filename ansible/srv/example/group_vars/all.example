@@ -1,0 +1,7 @@
+---
+email_host: <email_host>
+email_port: <email_port>
+email_to: <email_to>
+email_username: <email_username>
+email_password: <email_password>
+email_from: <email_from>

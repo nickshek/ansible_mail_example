@@ -1,0 +1,9 @@
+{% for host in groups['all'] %}
+{% if host != 'localhost' %}
+<h1>Result for
+{{ hostvars[host]['inventory_hostname'] }}
+</h1>
+<b>==================================================================</b><br/>
+{{lookup("file", "./tmp/" + hostvars[host]["inventory_hostname"] + ".txt")}}
+{% endif %}
+{% endfor %}
